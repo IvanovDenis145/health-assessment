@@ -1,32 +1,25 @@
-# === Java / Gradle (backend) ===
+# Java
 backend/build/
 backend/.gradle/
 backend/out/
 *.class
-*.jar
-!gradle/wrapper/gradle-wrapper.jar
 
-# === Node / React (frontend) ===
+# Node
 frontend/node_modules/
 frontend/dist/
 frontend/coverage/
-frontend/.vite/
+node_modules/
 
-# === Node (корень — инструменты разработки) ===
-
-# === IDE ===
+# IDE
 .idea/
 *.iml
-*.iws
 .vscode/
-*.swp
 
-# === Env / Secrets ===
+# Env / secrets
 .env
-.env.local
 application-local.yml
 *.log
 
-# === OS ===
+# OS
 .DS_Store
 Thumbs.db
