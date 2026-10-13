@@ -5,7 +5,7 @@ spring:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
-    password: sa
+    password: sas
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -13,3 +13,14 @@ spring:
 
 server:
   port: 8080
+
+logging:
+  level:
+    root: INFO
+    ru.ulstu.health: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/health-assessment.log
