@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     @Column(name = "fio", nullable = false, length = 50)
     private String fio;
 
@@ -83,4 +83,9 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<StateOfHealth> stateOfHealths;
+
+    @Override
+    public String toString() {
+        return "User{id='" + getId() + "', email='" + email + "', fio='" + fio + "'}";
+    }
 }

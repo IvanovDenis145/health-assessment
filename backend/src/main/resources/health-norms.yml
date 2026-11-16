@@ -1,0 +1,222 @@
+health:
+  norms:
+    bmi:
+      - ageMin: 18
+        ageMax: 24
+        ideal: 21.5
+        min: 18.5
+        max: 24.9
+      - ageMin: 25
+        ageMax: 34
+        ideal: 22.5
+        min: 18.5
+        max: 24.9
+      - ageMin: 35
+        ageMax: 44
+        ideal: 23.5
+        min: 18.5
+        max: 24.9
+      - ageMin: 45
+        ageMax: 54
+        ideal: 24.5
+        min: 18.5
+        max: 24.9
+      - ageMin: 55
+        ageMax: 64
+        ideal: 25.0
+        min: 18.5
+        max: 25.9
+      - ageMin: 65
+        ageMax: 99
+        ideal: 25.5
+        min: 18.5
+        max: 27.0
+    chestCircumference:
+      - ageMin: 18
+        ageMax: 99
+        maleIdeal: 95.0
+        maleMin: 85.0
+        maleMax: 105.0
+        femaleIdeal: 85.0
+        femaleMin: 75.0
+        femaleMax: 95.0
+    skinFold:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 12.0
+        min: 5.0
+        max: 25.0
+    vitalLungCapacity:
+      - ageMin: 18
+        ageMax: 29
+        ideal: 4500
+        min: 3500
+        max: 5500
+      - ageMin: 30
+        ageMax: 44
+        ideal: 4300
+        min: 3300
+        max: 5300
+      - ageMin: 45
+        ageMax: 59
+        ideal: 4000
+        min: 3000
+        max: 5000
+      - ageMin: 60
+        ageMax: 99
+        ideal: 3500
+        min: 2500
+        max: 4500
+    dynamometry:
+      - ageMin: 18
+        ageMax: 29
+        maleIdeal: 48.0
+        maleMin: 40.0
+        maleMax: 55.0
+        femaleIdeal: 29.0
+        femaleMin: 22.0
+        femaleMax: 33.0
+      - ageMin: 30
+        ageMax: 44
+        maleIdeal: 49.0
+        maleMin: 40.0
+        maleMax: 55.0
+        femaleIdeal: 29.0
+        femaleMin: 22.0
+        femaleMax: 33.0
+      - ageMin: 45
+        ageMax: 59
+        maleIdeal: 45.0
+        maleMin: 35.0
+        maleMax: 50.0
+        femaleIdeal: 26.0
+        femaleMin: 20.0
+        femaleMax: 30.0
+      - ageMin: 60
+        ageMax: 99
+        maleIdeal: 38.0
+        maleMin: 30.0
+        maleMax: 45.0
+        femaleIdeal: 22.0
+        femaleMin: 16.0
+        femaleMax: 26.0
+    deadliftStrength:
+      - ageMin: 18
+        ageMax: 29
+        idealRatio: 1.5
+        minRatio: 1.0
+        maxRatio: 2.0
+      - ageMin: 30
+        ageMax: 39
+        idealRatio: 1.4
+        minRatio: 0.9
+        maxRatio: 1.9
+      - ageMin: 40
+        ageMax: 49
+        idealRatio: 1.2
+        minRatio: 0.8
+        maxRatio: 1.7
+      - ageMin: 50
+        ageMax: 59
+        idealRatio: 1.0
+        minRatio: 0.7
+        maxRatio: 1.5
+      - ageMin: 60
+        ageMax: 99
+        idealRatio: 0.8
+        minRatio: 0.5
+        maxRatio: 1.2
+    heartRate:
+      - ageMin: 18
+        ageMax: 29
+        ideal: 72
+        min: 60
+        max: 100
+      - ageMin: 30
+        ageMax: 44
+        ideal: 75
+        min: 60
+        max: 100
+      - ageMin: 45
+        ageMax: 59
+        ideal: 78
+        min: 60
+        max: 100
+      - ageMin: 60
+        ageMax: 99
+        ideal: 75
+        min: 60
+        max: 100
+    bloodPressure:
+      - ageMin: 18
+        ageMax: 40
+        sysIdeal: 120
+        sysMin: 110
+        sysMax: 130
+        diaIdeal: 80
+        diaMin: 70
+        diaMax: 85
+      - ageMin: 41
+        ageMax: 60
+        sysIdeal: 130
+        sysMin: 120
+        sysMax: 140
+        diaIdeal: 85
+        diaMin: 80
+        diaMax: 90
+      - ageMin: 61
+        ageMax: 99
+        sysIdeal: 140
+        sysMin: 130
+        sysMax: 150
+        diaIdeal: 85
+        diaMin: 80
+        diaMax: 90
+    respiratoryRate:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 16
+        min: 12
+        max: 20
+    glucoseLevel:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 4.6
+        min: 3.9
+        max: 5.5
+    cholesterolLevel:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 4.5
+        min: 3.0
+        max: 5.2
+    triglycerideLevel:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 1.1
+        min: 0.5
+        max: 1.7
+    immunoglobulinG:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 10.0
+        min: 7.0
+        max: 16.0
+    phagocyticIndex:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 1.75
+        min: 1.5
+        max: 2.0
+    stressLevel:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 2
+        min: 1
+        max: 6
+    subjectiveWellBeing:
+      - ageMin: 18
+        ageMax: 99
+        ideal: 9
+        min: 6
+        max: 10

@@ -1,0 +1,7 @@
+{
+  "fio": "Петров Петр",
+  "email": "petrov@example.com",
+  "password": "secret123",
+  "age": 35,
+  "gender": "male"
+}
