@@ -35,7 +35,8 @@ public class CholesterolLevelController {
     }
 
     @PutMapping("/{id}")
-    public CholesterolLevelDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody CholesterolLevelDto dto) {
+    public CholesterolLevelDto update(@PathVariable String userId,
+                                      @PathVariable String id, @Valid @RequestBody CholesterolLevelDto dto) {
         CholesterolLevel entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

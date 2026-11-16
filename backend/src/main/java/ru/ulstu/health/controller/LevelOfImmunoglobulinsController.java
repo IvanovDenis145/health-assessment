@@ -29,13 +29,16 @@ public class LevelOfImmunoglobulinsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LevelOfImmunoglobulinsDto create(@PathVariable String userId, @Valid @RequestBody LevelOfImmunoglobulinsDto dto) {
+    public LevelOfImmunoglobulinsDto create(@PathVariable String userId,
+                                            @Valid @RequestBody LevelOfImmunoglobulinsDto dto) {
         LevelOfImmunoglobulins entity = mapper.toEntity(dto);
         return mapper.toDto(service.create(userId, entity));
     }
 
     @PutMapping("/{id}")
-    public LevelOfImmunoglobulinsDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody LevelOfImmunoglobulinsDto dto) {
+    public LevelOfImmunoglobulinsDto update(@PathVariable String userId,
+                                            @PathVariable String id, @Valid @RequestBody
+                                                LevelOfImmunoglobulinsDto dto) {
         LevelOfImmunoglobulins entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

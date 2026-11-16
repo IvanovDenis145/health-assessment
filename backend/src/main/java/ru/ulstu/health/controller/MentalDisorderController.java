@@ -35,7 +35,8 @@ public class MentalDisorderController {
     }
 
     @PutMapping("/{id}")
-    public MentalDisorderDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody MentalDisorderDto dto) {
+    public MentalDisorderDto update(@PathVariable String userId,
+                                    @PathVariable String id, @Valid @RequestBody MentalDisorderDto dto) {
         MentalDisorder entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

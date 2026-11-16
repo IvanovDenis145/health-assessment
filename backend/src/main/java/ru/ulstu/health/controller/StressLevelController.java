@@ -35,7 +35,8 @@ public class StressLevelController {
     }
 
     @PutMapping("/{id}")
-    public StressLevelDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody StressLevelDto dto) {
+    public StressLevelDto update(@PathVariable String userId,
+                                 @PathVariable String id, @Valid @RequestBody StressLevelDto dto) {
         StressLevel entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

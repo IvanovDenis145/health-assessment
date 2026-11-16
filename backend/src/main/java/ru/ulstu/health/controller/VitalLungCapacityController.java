@@ -35,7 +35,8 @@ public class VitalLungCapacityController {
     }
 
     @PutMapping("/{id}")
-    public VitalLungCapacityDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody VitalLungCapacityDto dto) {
+    public VitalLungCapacityDto update(@PathVariable String userId,
+                                       @PathVariable String id, @Valid @RequestBody VitalLungCapacityDto dto) {
         VitalLungCapacity entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

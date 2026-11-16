@@ -35,7 +35,8 @@ public class DeadliftStrengthController {
     }
 
     @PutMapping("/{id}")
-    public DeadliftStrengthDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody DeadliftStrengthDto dto) {
+    public DeadliftStrengthDto update(@PathVariable String userId,
+                                      @PathVariable String id, @Valid @RequestBody DeadliftStrengthDto dto) {
         DeadliftStrength entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

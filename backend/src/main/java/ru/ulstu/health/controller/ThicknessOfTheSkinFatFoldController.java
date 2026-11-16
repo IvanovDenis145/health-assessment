@@ -29,13 +29,18 @@ public class ThicknessOfTheSkinFatFoldController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ThicknessOfTheSkinFatFoldDto create(@PathVariable String userId, @Valid @RequestBody ThicknessOfTheSkinFatFoldDto dto) {
+    public ThicknessOfTheSkinFatFoldDto create(@PathVariable String userId,
+                                               @Valid @RequestBody
+                                               ThicknessOfTheSkinFatFoldDto dto) {
         ThicknessOfTheSkinFatFold entity = mapper.toEntity(dto);
         return mapper.toDto(service.create(userId, entity));
     }
 
     @PutMapping("/{id}")
-    public ThicknessOfTheSkinFatFoldDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody ThicknessOfTheSkinFatFoldDto dto) {
+    public ThicknessOfTheSkinFatFoldDto update(@PathVariable String userId,
+                                               @PathVariable String id,
+                                               @Valid @RequestBody
+                                                   ThicknessOfTheSkinFatFoldDto dto) {
         ThicknessOfTheSkinFatFold entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

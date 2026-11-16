@@ -35,7 +35,8 @@ public class BloodPressureController {
     }
 
     @PutMapping("/{id}")
-    public BloodPressureDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody BloodPressureDto dto) {
+    public BloodPressureDto update(@PathVariable String userId,
+                                   @PathVariable String id, @Valid @RequestBody BloodPressureDto dto) {
         BloodPressure entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

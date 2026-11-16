@@ -36,7 +36,8 @@ public class HeightController {
     }
 
     @PutMapping("/{id}")
-    public HeightDto updateHeight(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody HeightDto dto) {
+    public HeightDto updateHeight(@PathVariable String userId,
+                                  @PathVariable String id, @Valid @RequestBody HeightDto dto) {
         Height height = heightMapper.toEntity(dto);
         Height updated = heightService.update(id, height);
         return heightMapper.toDto(updated);

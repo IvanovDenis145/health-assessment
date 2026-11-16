@@ -35,7 +35,8 @@ public class TriglycerideLevelController {
     }
 
     @PutMapping("/{id}")
-    public TriglycerideLevelDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody TriglycerideLevelDto dto) {
+    public TriglycerideLevelDto update(@PathVariable String userId,
+                                       @PathVariable String id, @Valid @RequestBody TriglycerideLevelDto dto) {
         TriglycerideLevel entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

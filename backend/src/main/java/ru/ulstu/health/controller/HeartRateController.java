@@ -35,7 +35,8 @@ public class HeartRateController {
     }
 
     @PutMapping("/{id}")
-    public HeartRateDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody HeartRateDto dto) {
+    public HeartRateDto update(@PathVariable String userId,
+                               @PathVariable String id, @Valid @RequestBody HeartRateDto dto) {
         HeartRate entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

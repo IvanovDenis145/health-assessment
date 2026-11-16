@@ -35,7 +35,8 @@ public class DynamometryController {
     }
 
     @PutMapping("/{id}")
-    public DynamometryDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody DynamometryDto dto) {
+    public DynamometryDto update(@PathVariable String userId,
+                                 @PathVariable String id, @Valid @RequestBody DynamometryDto dto) {
         Dynamometry entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

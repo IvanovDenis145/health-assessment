@@ -35,7 +35,8 @@ public class RespiratoryRateController {
     }
 
     @PutMapping("/{id}")
-    public RespiratoryRateDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody RespiratoryRateDto dto) {
+    public RespiratoryRateDto update(@PathVariable String userId,
+                                     @PathVariable String id, @Valid @RequestBody RespiratoryRateDto dto) {
         RespiratoryRate entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

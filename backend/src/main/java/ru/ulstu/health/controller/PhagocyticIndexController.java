@@ -35,7 +35,8 @@ public class PhagocyticIndexController {
     }
 
     @PutMapping("/{id}")
-    public PhagocyticIndexDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody PhagocyticIndexDto dto) {
+    public PhagocyticIndexDto update(@PathVariable String userId,
+                                     @PathVariable String id, @Valid @RequestBody PhagocyticIndexDto dto) {
         PhagocyticIndex entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

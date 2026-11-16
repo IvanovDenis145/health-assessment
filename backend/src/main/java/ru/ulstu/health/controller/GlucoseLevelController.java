@@ -35,7 +35,8 @@ public class GlucoseLevelController {
     }
 
     @PutMapping("/{id}")
-    public GlucoseLevelDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody GlucoseLevelDto dto) {
+    public GlucoseLevelDto update(@PathVariable String userId,
+                                  @PathVariable String id, @Valid @RequestBody GlucoseLevelDto dto) {
         GlucoseLevel entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

@@ -35,7 +35,8 @@ public class StateOfHealthController {
     }
 
     @PutMapping("/{id}")
-    public StateOfHealthDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody StateOfHealthDto dto) {
+    public StateOfHealthDto update(@PathVariable String userId,
+                                   @PathVariable String id, @Valid @RequestBody StateOfHealthDto dto) {
         StateOfHealth entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }

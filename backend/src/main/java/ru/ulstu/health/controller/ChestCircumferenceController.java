@@ -35,7 +35,8 @@ public class ChestCircumferenceController {
     }
 
     @PutMapping("/{id}")
-    public ChestCircumferenceDto update(@PathVariable String userId, @PathVariable String id, @Valid @RequestBody ChestCircumferenceDto dto) {
+    public ChestCircumferenceDto update(@PathVariable String userId,
+                                        @PathVariable String id, @Valid @RequestBody ChestCircumferenceDto dto) {
         ChestCircumference entity = mapper.toEntity(dto);
         return mapper.toDto(service.update(id, entity));
     }
