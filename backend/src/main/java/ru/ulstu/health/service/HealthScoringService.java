@@ -1,5 +1,6 @@
 package ru.ulstu.health.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class HealthScoringService {
     private final UserRepository userRepository;
     private final StateOfHealthRepository stateOfHealthRepository;
     private final HealthNormsProperties norms;
+    private final ObjectMapper objectMapper;
 
     @Transactional
     public StateOfHealth evaluateUserHealth(String userId) {
@@ -163,35 +165,188 @@ public class HealthScoringService {
                 (Double::doubleValue).average().orElse(5.0);
         totalScore = Math.round(totalScore * 10.0) / 10.0;
 
+        // --- Формирование снимка ВСЕХ показателей (для истории) ---
+        Map<String, Object> detailsMap = new LinkedHashMap<>();
+
+        if (height != null) {
+            detailsMap.put("Рост", height + " см");
+        }
+        if (weight != null) {
+            detailsMap.put("Вес", weight + " кг");
+        }
+        if (chestScore != null) {
+            detailsMap.put("Окружность груди", getLatestChest(user) + " см");
+        }
+        if (skinFoldScore != null) {
+            detailsMap.put("Кожно-жировая складка", getLatestSkinFold(user) + " мм");
+        }
+
+        if (vlcScore != null) {
+            detailsMap.put("ЖЕЛ", getLatestVlc(user) + " мл");
+        }
+        if (dynamometryScore != null) {
+            detailsMap.put("Динамометрия", getLatestDynamometry(user) + " кг");
+        }
+        if (deadliftScore != null) {
+            detailsMap.put("Становая сила", getLatestDeadlift(user) + " кг");
+        }
+
+        if (hrScore != null) {
+            detailsMap.put("ЧСС", getLatestHr(user) + " уд/мин");
+        }
+        if (bpScore == null) {
+        } else {
+            BloodPressure bp = user.getBloodPressures().stream()
+                    .max(Comparator.comparing(BloodPressure::getCreatedAt)).get();
+            detailsMap.put("Давление", bp.getUpperPressure()
+                    + "/" + bp.getLowerPressure() + " мм рт.ст.");
+        }
+        if (rrScore != null) {
+            detailsMap.put("Частота дыхания", getLatestRr(user) + " вдохов/мин");
+        }
+
+        if (glucoseScore != null) {
+            detailsMap.put("Глюкоза", getLatestGlucose(user) + " ммоль/л");
+        }
+        if (cholScore != null) {
+            detailsMap.put("Холестерин", getLatestCholesterol(user) + " ммоль/л");
+        }
+        if (trigScore != null) {
+            detailsMap.put("Триглицериды", getLatestTriglyceride(user) + " ммоль/л");
+        }
+
+        if (iggScore != null) {
+            detailsMap.put("Иммуноглобулин G", getLatestIgg(user) + " г/л");
+        }
+        if (phagScore != null) {
+            detailsMap.put("Фагоцитарный индекс", getLatestPhagocytic(user) + " у.е.");
+        }
+
+        if (stressScore != null) {
+            detailsMap.put("Уровень стресса", getLatestStress(user) + " / 10");
+        }
+        if (user.getMentalDisorders() != null && !user.getMentalDisorders().isEmpty()) {
+            detailsMap.put("Расстройства", user.getMentalDisorders().get(0).getName());
+        } else {
+            detailsMap.put("Расстройства", "Нет");
+        }
+        if (wellBeingScore != null) {
+            detailsMap.put("Самочувствие", getLatestWellBeing(user) + " / 10");
+        }
+
+        Map<String, Object> chartData = new LinkedHashMap<>();
+        categoryScores.forEach((catName, score) -> {
+            if (score != null) {
+                chartData.put(catName, score);
+            }
+        });
+        detailsMap.put("_chartData", chartData);
+
+        String detailsJson = "{}";
+        try {
+            detailsJson = objectMapper.writeValueAsString(detailsMap);
+        } catch (Exception e) {
+            log.error("Ошибка при сериализации деталей оценки", e);
+        }
+
         StateOfHealth result = new StateOfHealth();
         result.setUser(user);
         result.setValue(totalScore);
         result.setName(interpretScore(totalScore));
+        result.setDetails(detailsJson);
 
         log.info("Оценка здоровья пользователя {} (возраст {}): итог={}, категория={}",
                 userId, age, totalScore, result.getName());
-        categoryScores.forEach
-                ((cat, score) -> log.debug("  {}: {}", cat, score));
 
         return stateOfHealthRepository.save(result);
     }
 
+    public List<StateOfHealth> getAssessmentHistory(String userId) {
+        return stateOfHealthRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
+    }
+
+    // --- Вспомогательные методы для получения последних значений ---
     private Double getLatestWeight(User user) {
-        if (user.getWeights() == null || user.getWeights().isEmpty()) {
-            return null;
-        }
-        return user.getWeights().stream()
-                .max(Comparator.comparing(Weight::getCreatedAt))
-                .get().getValue().doubleValue();
+        return user.getWeights() == null || user.getWeights().isEmpty() ? null :
+            user.getWeights().stream().max(Comparator.comparing(Weight::getCreatedAt))
+            .get().getValue().doubleValue();
     }
 
     private Double getLatestHeight(User user) {
-        if (user.getHeights() == null || user.getHeights().isEmpty()) {
-            return null;
-        }
-        return user.getHeights().stream()
-                .max(Comparator.comparing(Height::getCreatedAt))
-                .get().getValue().doubleValue();
+        return user.getHeights() == null || user.getHeights().isEmpty() ? null
+            : user.getHeights().stream().max(Comparator.comparing(Height::getCreatedAt))
+              .get().getValue().doubleValue();
+    }
+
+    private Double getLatestChest(User user) {
+        return user.getChestCircumferences().stream().max(Comparator
+            .comparing(ChestCircumference::getCreatedAt)).get()
+            .getValue().doubleValue();
+    }
+
+    private Double getLatestSkinFold(User user) {
+        return user.getSkinFolds().stream().max(Comparator.
+            comparing(ThicknessOfTheSkinFatFold::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestVlc(User user) {
+        return user.getVitalLungCapacities().stream().max(Comparator.
+            comparing(VitalLungCapacity::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestDynamometry(User user) {
+        return user.getDynamometries().stream().max(Comparator.comparing
+            (Dynamometry::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestDeadlift(User user) {
+        return user.getDeadliftStrengths().stream().max(Comparator
+            .comparing(DeadliftStrength::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestHr(User user) {
+        return user.getHeartRates().stream().max(Comparator
+            .comparing(HeartRate::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestRr(User user) {
+        return user.getRespiratoryRates().stream().max(Comparator
+            .comparing(RespiratoryRate::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestGlucose(User user) {
+        return user.getGlucoseLevels().stream().max(Comparator
+            .comparing(GlucoseLevel::getCreatedAt)).get().getValue();
+    }
+
+    private Double getLatestCholesterol(User user) {
+        return user.getCholesterolLevels().stream().max(Comparator
+            .comparing(CholesterolLevel::getCreatedAt)).get().getValue();
+    }
+
+    private Double getLatestTriglyceride(User user) {
+        return user.getTriglycerideLevels().stream().max(Comparator
+            .comparing(TriglycerideLevel::getCreatedAt)).get().getValue();
+    }
+
+    private Double getLatestIgg(User user) {
+        return user.getImmunoglobulinLevels().stream().max(Comparator
+            .comparing(LevelOfImmunoglobulins::getCreatedAt)).get().getValue();
+    }
+
+    private Double getLatestPhagocytic(User user) {
+        return user.getPhagocyticIndexes().stream().max(Comparator
+            .comparing(PhagocyticIndex::getCreatedAt)).get().getValue();
+    }
+
+    private Double getLatestStress(User user) {
+        return user.getStressLevels().stream().max(Comparator
+            .comparing(StressLevel::getCreatedAt)).get().getValue().doubleValue();
+    }
+
+    private Double getLatestWellBeing(User user) {
+        return user.getSubjectiveWellBeings().stream().max(Comparator
+            .comparing(SubjectiveWellBeing::getCreatedAt)).get().getValue().doubleValue();
     }
 
     private Double average(List<Double> list) {

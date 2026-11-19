@@ -14,6 +14,9 @@ public class StateOfHealth extends BaseEntity {
     @Column(name = "name", length = 20)
     private String name;
 
+    @Column(name = "details", columnDefinition = "TEXT")
+    private String details;
+
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

@@ -3,6 +3,7 @@ package ru.ulstu.health.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.ulstu.health.dto.user.UserCreateDto;
 import ru.ulstu.health.dto.user.UserDto;
@@ -23,6 +24,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<UserDto> getAllUsers() {
         return userService.findAll().stream()
                 .map(userMapper::toDto)
@@ -52,6 +54,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(@PathVariable String id) {
         userService.delete(id);
     }

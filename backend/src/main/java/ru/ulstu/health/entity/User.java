@@ -26,6 +26,10 @@ public class User extends BaseEntity {
     @Column(name = "gender", length = 10)
     private String gender;
 
+    @Builder.Default
+    @Column(name = "role", nullable = false)
+    private String role = "ROLE_USER";
+
     // Связи Один ко Многим
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Height> heights;

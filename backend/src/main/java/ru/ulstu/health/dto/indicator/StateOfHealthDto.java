@@ -15,5 +15,7 @@ public class StateOfHealthDto {
     @Size(max = 20, message = "Категория не должна превышать 20 символов")
     private String name;
 
+    private String details;
+
     private LocalDateTime createdAt;
 }
