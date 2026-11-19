@@ -9,6 +9,8 @@ on:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+
+    # По умолчанию все команды запускаются в папке frontend
     defaults:
       run:
         working-directory: frontend
@@ -16,6 +18,24 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # --- 1. ПОДНИМАЕМ БАЗУ ДАННЫХ ---
+      - name: Start PostgreSQL Database
+        working-directory: . # Возвращаемся в корень, где лежит docker-compose.yml
+        run: docker compose up -d
+
+      # --- 2. НАСТРАИВАЕМ JAVA ДЛЯ БЭКЕНДА ---
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        working-directory: . # Возвращаемся в корень
+        run: chmod +x backend/gradlew
+      # ---------------------------------------
 
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
@@ -49,26 +69,23 @@ jobs:
           name: frontend-dist
           path: frontend/dist/
 
-      # --- НОВОЕ: E2E ТЕСТЫ (PLAYWRIGHT) ---
-      # ВНИМАНИЕ: Для работы E2E в CI нужно поднять сервера.
-      # Если вы используете docker-compose в корне проекта, раскомментируйте шаг ниже:
-
-      # - name: Start backend and frontend
-      #   working-directory: . # возвращаемся в корень
-      #   run: docker-compose up -d
-
+      # --- 3. E2E ТЕСТЫ (PLAYWRIGHT) ---
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
       - name: Run E2E Tests
         run: npx playwright test
-        # Если поднимали докер, добавьте:
-        # env:
-        #   BASE_URL: http://localhost:5173
+        # Playwright сам запустит backend и frontend (см. playwright.config.ts)
 
       - name: Upload Playwright Report
-        if: always() # Загружаем отчет, даже если тесты упали
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: frontend/playwright-report/
+
+      # --- 4. ОСТАНОВКА БАЗЫ ДАННЫХ (опционально) ---
+      - name: Stop PostgreSQL
+        if: always()
+        working-directory: .
+        run: docker compose down
