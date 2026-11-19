@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface StateOfHealthRepository extends JpaRepository<StateOfHealth, String> {
     List<StateOfHealth> findAllByUserId(String userId);
+    List<StateOfHealth> findAllByUserIdOrderByCreatedAtDesc(String userId);
 }

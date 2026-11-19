@@ -20,6 +20,11 @@ export default [
         window: 'readonly',
         document: 'readonly',
         console: 'readonly',
+        // ДОБАВИТЬ ЭТИ СТРОКИ:
+        localStorage: 'readonly',
+        alert: 'readonly',
+        prompt: 'readonly',
+        confirm: 'readonly',
       },
     },
     settings: {

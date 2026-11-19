@@ -1,0 +1,1 @@
+ALTER TABLE state_of_health ADD COLUMN details TEXT;
